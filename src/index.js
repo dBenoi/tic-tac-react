@@ -2,33 +2,34 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-// renders a single <button> 
-class Square extends React.Component {
-  render() {
-    return (
-      <button
-        className="square"
-        onClick={() => { this.props.onClick() }}>
-        {this.props.value}
-      </button>
-    );
-  }
+// renders a single <button> component and displays the value
+function Square(props) {
+  return (
+    <button className="square" onClick={props.onClick}>
+      {props.value}
+    </button>
+  );
 }
 
 
-// renders 9 squares
+// renders 9 squares as the board
 class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       squares: Array(9).fill(null),
+      isNext: true,
     };
   }
 
+  // sets the state of "Square" to X/O
   handleClick(i) {
     const squares = this.state.squares.slice();
-    squares[i] = 'X';
-    this.setState({ squares: squares });
+    squares[i] = this.state.isNext ? 'X' : 'O';
+    this.setState({
+      squares: squares,
+      isNext: !this.state.isNext,
+    });
   }
 
   renderSquare(i) {
